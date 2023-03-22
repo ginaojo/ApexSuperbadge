@@ -13,7 +13,7 @@ public with sharing class MaintenanceRequestHelper {
             routMainCases.add(newCase);
 
         }
-        
+        insert routMainCases;
     }        
     
 }
