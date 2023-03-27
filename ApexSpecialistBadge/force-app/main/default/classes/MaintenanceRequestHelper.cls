@@ -6,16 +6,15 @@ public static void updateWorkOrders(List<Case> newCases, List<Case> oldCases, Ma
         String oldStatus = oldMap.get(singleCase.Id).Status;
         if (oldStatus != 'Closed' && singleCase.Status == 'Closed') {
             casesToProcess.add(singleCase);
-        }    
+        }     
     }
     cloneMaintenanceRequests(casesToProcess);
     // TODO: Complete the method to update workorders
-    }
+    } 
 
     public static void cloneMaintenanceRequests(List<Case> cases) {
         List<Case> closedCases = [Select Id, Vehicle__c,ContactId,AccountId, Priority, (SELECT Id, Equipment__c, Maintenance_Request__c, Quantity__c,Equipment__r.Maintenance_Cycle__c  FROM Equipment_Maintenance_Items__r) FROM Case Where (Type='Repair' OR Type='Routine Maintenance') AND Status='Closed' AND Id IN :cases];
         List<Case> routMainCases = new List<Case>();
-        List<Equipment_Maintenance_Item__c> equipItems = new List<Equipment_Maintenance_Item__c>();
         Map<Id,List<Equipment_Maintenance_Item__c>> casesAndEquipment = new Map<Id,List<Equipment_Maintenance_Item__c>>();
         for (Case closedCase : closedCases) {
             Case newCase = closedCase.clone(false,true);
@@ -25,10 +24,10 @@ public static void updateWorkOrders(List<Case> newCases, List<Case> oldCases, Ma
             Integer shortestcycle = getShortestMaintenceCycle(closedCase.Equipment_Maintenance_Items__r);
             if (shortestcycle != null ) {
                 newCase.Date_Due__c = Date.today().addDays(shortestcycle);
-            }
+            } 
             routMainCases.add(newCase);
             casesAndEquipment.put(closedCase.Id,closedCase.Equipment_Maintenance_Items__r.deepClone(false,false,false));
-        } 
+        }
         insert routMainCases;
         List<Equipment_Maintenance_Item__c> equipmentLinks = new List<Equipment_Maintenance_Item__c>();
         for (Case cas : routMainCases) {
@@ -55,7 +54,7 @@ public static void updateWorkOrders(List<Case> newCases, List<Case> oldCases, Ma
         } else if (equipmentItems.size() == 1 ) {
             Integer shortestCycle = Integer.valueOf(equipmentItems[0].Equipment__r.Maintenance_Cycle__c);
             return shortestCycle;
-        } else {
+        } else { 
             return null;
         }
     }
