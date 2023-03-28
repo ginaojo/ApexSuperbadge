@@ -44,15 +44,12 @@ public static void updateWorkOrders(List<Case> newCases, List<Case> oldCases, Ma
     public static Integer getShortestMaintenceCycle(List<Equipment_Maintenance_Item__c> equipmentItems) {
         List<Integer> cycle = new List<Integer>();
         
-        if (equipmentItems.size() > 1) {
+        if (equipmentItems.size() > 0) {
             for (Equipment_Maintenance_Item__c equipment : equipmentItems) {
                 cycle.add(Integer.valueOf(equipment.Equipment__r.Maintenance_Cycle__c));
             }
             cycle.sort();
             Integer shortestCycle = cycle[0];
-            return shortestCycle;
-        } else if (equipmentItems.size() == 1 ) {
-            Integer shortestCycle = Integer.valueOf(equipmentItems[0].Equipment__r.Maintenance_Cycle__c);
             return shortestCycle;
         } else { 
             return null;
