@@ -20,13 +20,8 @@ public with sharing class WarehouseCalloutService implements Queueable, Database
             productUpdate.Maintenance_Cycle__c = (Integer) productEntry.get('maintenanceperiod');
             productUpdate.Name = (String) productEntry.get('name');
             productUpdate.Warehouse_SKU__c = (String) productEntry.get('sku');
-            System.debug(productUpdate);
             productList.add(productUpdate);
         }
-        try {
-            upsert productList Warehouse_SKU__c;
-        } catch (DmlException e) {
-            System.debug(e.getMessage());
-        }
+        upsert productList Warehouse_SKU__c;
     }
 }
