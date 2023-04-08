@@ -46,7 +46,7 @@ private class MaintenanceRequestHelperTest {
         System.assertEquals(0, cases.size(),'List size does not match');
     }
     @isTest
-    private static void negativeNoEquipmentItems() {
+    private static void positiveNoEquipmentItems() {
         Vehicle__c vechicle = new Vehicle__c(Name='Camper');
         insert vechicle;
         Case aCase = new Case(Subject='Test Case', Type='Repair', Vehicle__c=vechicle.Id);
