@@ -18,13 +18,13 @@ public class TestDataFactory {
     public static List<Product2> getProducts(Integer numProducts) {
         List<Product2> products = new List<Product2>();
         for (Integer i=0;i<numProducts;i++) {
-            products.add(new Product2(Name='Test Product'+i,Maintenance_Cycle__c=i, Replacement_Part__c=true));
+            products.add(new Product2(Name='Test Product'+i,Maintenance_Cycle__c=i+3, Replacement_Part__c=true));
         }
         insert products;
         return products;
     }
     
-    public static Case getMaintenanceReqWithProducts(Integer numProducts, String caseType) {
+    public static void getMaintenanceReqWithProducts(Integer numProducts, String caseType) {
         Vehicle__c vechicle = getVehicles('Test Vehicle');
         List<Case> aCase = getMaintenanceRequests(1,caseType,vechicle.Id);
         List<Product2> products = getProducts(numProducts);
@@ -33,7 +33,6 @@ public class TestDataFactory {
             equipmentItems.add(new Equipment_Maintenance_Item__c(Equipment__c=prod.Id,Maintenance_Request__c=aCase[0].Id));
         }
         insert equipmentItems;
-        return aCase[0];
     }
     
 
